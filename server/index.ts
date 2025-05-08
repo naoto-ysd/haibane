@@ -6,11 +6,11 @@ const app = new Hono()
 
 // MySQL との接続プール
 const pool = mysql.createPool({
-  host:     'localhost',
-  user:     'your_db_user',
-  password: 'your_db_password',
-  database: 'your_database',
-  port:     3306,
+  host:     process.env.DB_HOST || 'localhost',
+  user:     process.env.DB_USER || 'your_db_user',
+  password: process.env.DB_PASSWORD || 'your_db_password',
+  database: process.env.DB_NAME || 'your_database',
+  port:     Number(process.env.DB_PORT) || 3306,
   waitForConnections: true,
   connectionLimit:    10,
 })
