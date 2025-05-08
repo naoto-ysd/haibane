@@ -1,0 +1,18 @@
+# Dockerfile for Nuxt.js front-end
+FROM node:18-alpine
+WORKDIR /app
+
+# Install dependencies
+COPY package*.json nuxt.config.ts tsconfig.json .
+COPY app.vue ./
+COPY public ./public
+COPY server/api/hello.ts ./server/api/hello.ts
+
+RUN npm install
+
+# Build the Nuxt application
+RUN npm run build
+
+# Expose and start
+EXPOSE 3000
+CMD ["npm", "run", "start"]

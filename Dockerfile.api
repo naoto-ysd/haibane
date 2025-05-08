@@ -1,0 +1,15 @@
+# Dockerfile for Hono API service
+FROM node:18-alpine
+WORKDIR /app
+
+# Install production dependencies and ts-node for TS execution
+env NODE_ENV=production
+COPY package*.json ./
+RUN npm install --production && npm install ts-node typescript -D
+
+# Copy code
+COPY . .
+
+# Expose API port and start via ts-node
+EXPOSE 3000
+CMD ["npx", "ts-node", "server/index.ts"]
