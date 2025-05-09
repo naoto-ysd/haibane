@@ -3,9 +3,9 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 COPY package*.json ./
-RUN npm install --production && npm install ts-node typescript -D
+RUN npm install --production && npm install tsx typescript -D
 
 COPY . .
 
 EXPOSE 3000
-CMD ["npx", "ts-node", "server/index.ts"]
+CMD ["npx", "tsx", "server/index.ts"]
