@@ -15,4 +15,4 @@ RUN npm run build
 
 # Expose and start
 EXPOSE 3000
-CMD ["npm", "run", "preview"]
+CMD ["node", ".output/server/index.mjs"]
