@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { serve } from '@hono/node-server'
 import mysql from 'mysql2/promise'
 
 // Hono アプリケーションのインスタンス化
@@ -22,4 +23,7 @@ app.get('/users', async (c) => {
 })
 
 // サーバー起動（3000番ポート）
-app.listen(3000)
+serve({
+  fetch: app.fetch,
+  port: 3000
+})
