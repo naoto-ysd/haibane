@@ -5,10 +5,13 @@ WORKDIR /app
 # Install production dependencies and ts-node for TS execution
 ENV NODE_ENV=production
 COPY package*.json ./
-RUN npm install --production && npm install ts-node typescript @types/node -D
+RUN npm install --production && npm install ts-node typescript @types/node tsconfig-paths -D
 
 # Copy code
 COPY . .
+
+# Create tsconfig.json for ESM support
+RUN echo '{"compilerOptions":{"module":"ESNext","moduleResolution":"NodeNext","target":"ES2020","esModuleInterop":true,"allowSyntheticDefaultImports":true},"ts-node":{"esm":true}}' > tsconfig.json
 
 # Expose API port and start via ts-node
 EXPOSE 3000
