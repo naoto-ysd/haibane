@@ -2,17 +2,20 @@
 FROM node:18-alpine
 WORKDIR /app
 
-# Install production dependencies and ts-node for TS execution
+# Install production dependencies and TypeScript
 ENV NODE_ENV=production
 COPY package*.json ./
-RUN npm install --production && npm install ts-node typescript @types/node tsconfig-paths -D
+RUN npm install --production && npm install typescript @types/node -D
 
 # Copy code
 COPY . .
 
 # Create tsconfig.json for ESM support
-RUN echo '{"compilerOptions":{"module":"ESNext","moduleResolution":"NodeNext","target":"ES2020","esModuleInterop":true,"allowSyntheticDefaultImports":true},"ts-node":{"esm":true}}' > tsconfig.json
+RUN echo '{"compilerOptions":{"module":"ESNext","moduleResolution":"NodeNext","target":"ES2020","esModuleInterop":true,"allowSyntheticDefaultImports":true,"outDir":"./dist"}}' > tsconfig.json
 
-# Expose API port and start via ts-node
+# Compile TypeScript to JavaScript
+RUN npx tsc --project tsconfig.json
+
+# Expose API port and start with Node.js
 EXPOSE 3000
-CMD ["npx", "ts-node", "--esm", "server/index.ts"]
+CMD ["node", "dist/server/index.js"]
